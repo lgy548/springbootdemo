@@ -21,6 +21,11 @@
 
     <logger name="com.example.springbootdemo.mapper" level="DEBUG" />
 
+    <!--<settings>-->
+        <!--&lt;!&ndash; 打印查询语句 &ndash;&gt;-->
+        <!--<setting name="logImpl" value="SLF4J" />-->
+    <!--</settings>-->
+
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
