@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>劈里啪啦</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+</head>
+<body>
+<div id = "app">
+    {{message}}
+    <div>
+        <table>
+            <tr>
+                <td>学号</td>
+                <td>姓名</td>
+                <td>性别</td>
+            </tr>
+
+            <tr>
+                <td><input type="button" value="xx" @click="get()" ></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<script>
+    var app = new Vue({
+        el:'#app',
+        data:{
+            message:'hello vue!'
+        },
+        methods:{
+            get:function(){
+                this.$http.get('/select').then(function (res) {
+                    alert(res);
+                },function(){
+                    console.log('请求失败处理');
+                });
+            }
+        }
+    })
+</script>
+</body>
+
+</html>
