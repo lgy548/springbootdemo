@@ -11,6 +11,10 @@ public class Employee {
         super();
     }
 
+    public Employee(Integer age){
+        this.age = age;
+    }
+
     public Employee(String name, int age, double salary) {
         this.name = name;
         this.age = age;
