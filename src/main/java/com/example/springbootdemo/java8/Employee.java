@@ -5,9 +5,11 @@ import java.util.Objects;
 public class Employee {
     private String name;
 
-    private int age;
+    private Integer age;
 
     private double salary;
+
+    private Status status;
 
     public Employee() {
         super();
@@ -23,6 +25,13 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Employee(String name, Integer age, double salary, Status status) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+        this.status = status;
+    }
+
     public String getName() {
         return name;
     }
@@ -31,11 +40,11 @@ public class Employee {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -47,12 +56,21 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
                 ", salary=" + salary +
+                ", status=" + status +
                 '}';
     }
 
@@ -67,5 +85,11 @@ public class Employee {
     @Override
     public int hashCode() {
         return Objects.hash(name, age, salary);
+    }
+
+    public enum Status{
+        FREE,
+        BUSY,
+        VOCATION;
     }
 }
