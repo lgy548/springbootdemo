@@ -2,6 +2,7 @@ package com.example.springbootdemo;
 
 import com.example.springbootdemo.java8.Student;
 import org.apache.logging.log4j.util.PropertySource;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
@@ -50,35 +51,34 @@ public class MyselfTest {
      */
     @Test
     public void test2(){
-
         students.stream()
-                .filter(e -> Objects.equals(e.getSex(), 1))
+                .filter(t -> t.getSex() == 1)
                 .filter(t -> !StringUtils.isEmpty(t.getName()))
-                .collect(Collectors.groupingBy(Student::getAge,
-                        Collectors.groupingBy(Student::getName, Collectors.counting())))
+                //1.
+                .collect(Collectors.groupingBy(Student::getAge, Collectors.collectingAndThen(
+                        Collectors.mapping(Student::getName,Collectors.toSet()), ArrayList::new)))
+                //2.
+                /*.collect(Collectors.groupingBy(Student::getAge, Collectors.collectingAndThen(
+                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Student::getName))), ArrayList::new)))*/
+                //3.
+                /*.collect(Collectors.groupingBy(Student::getAge,
+                        Collectors.groupingBy(Student::getName, Collectors.counting())))*/
                 .entrySet()
-//                .forEach(System.out::println);
-                .stream()
+                .forEach(System.out::println);
+                /*.stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().size()))
                 .entrySet()
 //                .forEach(System.out::println);
                 .stream()
                 .max(Comparator.comparingInt(Map.Entry::getValue))
-                .ifPresent(System.out::println);
-
-
-        /*students.stream()
-                .filter(t -> t.getSex() == 1)
-                .filter(t -> !StringUtils.isEmpty(t.getName()))
-                *//*.collect(Collectors.collectingAndThen(
-                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Student::getName))), ArrayList::new)
-                ).stream()*//*
-                .collect(Collectors.groupingBy(Student::getAge))
-                .entrySet()
-                .stream()
-                .collect(Collectors.collectingAndThen(
-                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Student::getName))), ArrayList::new))*/
-
-
+                .ifPresent(System.out::println);*/
     }
+
+    List<List<String>> lists =
+            Lists.newArrayList(Lists.newArrayList("1"),
+                    Lists.newArrayList("1","2"),
+                    Lists.newArrayList("1","2","3"));
+    /**
+     * 找出这个list里面1出现了几次
+     */
 }
