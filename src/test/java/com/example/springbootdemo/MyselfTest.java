@@ -54,24 +54,43 @@ public class MyselfTest {
         students.stream()
                 .filter(t -> t.getSex() == 1)
                 .filter(t -> !StringUtils.isEmpty(t.getName()))
-                //1.
+                /**
+                 * 1.collectingAndThen方法的使用-------先进行结果集的收集，然后将收集到的结果集进行下一步的处理
+                 * groupingBy方法通过age分组后，mapping方法将分组后的map中的name元素提取出来放入set中，collectingAndThen方法将得到的set转换为list
+                 * 结果集
+                 * 23=[张三]
+                 * 24=[李四]
+                 * 25=[张三, 周杰伦]
+                 */
                 .collect(Collectors.groupingBy(Student::getAge, Collectors.collectingAndThen(
                         Collectors.mapping(Student::getName,Collectors.toSet()), ArrayList::new)))
-                //2.
-                /*.collect(Collectors.groupingBy(Student::getAge, Collectors.collectingAndThen(
+                /**
+                 * 2.与上个方法类似，将mapping替换成toCollection通用转换方法，通过Comparator.comparing比较排序转换为TreeSet
+                 * 结果集
+                 * 23=[Student{name='张三', sex=1, age=23}]
+                 * 24=[Student{name='李四', sex=1, age=24}]
+                 * 25=[Student{name='周杰伦', sex=1, age=25}, Student{name='张三', sex=1, age=25}]
+                 */
+              /*  .collect(Collectors.groupingBy(Student::getAge, Collectors.collectingAndThen(
                         Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Student::getName))), ArrayList::new)))*/
-                //3.
+                /**
+                 * 3.通过两次分组 并获得第二次分组的key作为去重标志
+                 * 结果集
+                 * 23={张三=1}
+                 * 24={李四=1}
+                 * 25={张三=2, 周杰伦=1}
+                 */
                 /*.collect(Collectors.groupingBy(Student::getAge,
                         Collectors.groupingBy(Student::getName, Collectors.counting())))*/
                 .entrySet()
-                .forEach(System.out::println);
-                /*.stream()
+                /*.forEach(System.out::println);*/
+                .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().size()))
                 .entrySet()
 //                .forEach(System.out::println);
                 .stream()
                 .max(Comparator.comparingInt(Map.Entry::getValue))
-                .ifPresent(System.out::println);*/
+                .ifPresent(System.out::println);
     }
 
     List<List<String>> lists =
@@ -81,4 +100,12 @@ public class MyselfTest {
     /**
      * 找出这个list里面1出现了几次
      */
+    @Test
+    public void test3(){
+        long count = lists.stream()
+                .flatMap(List::stream)
+                .filter(t -> t.equals("1"))
+                .count();
+        System.out.println(count);
+    }
 }
